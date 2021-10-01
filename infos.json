@@ -1,0 +1,10 @@
+{
+  "name": "wiki",
+  "name_menu": "Wiki",
+  "icon_menu": "fas fa-book",
+  "description": "Gérer et afficher le wiki de votre site",
+  "version": "1.0.0",
+  "author": "Teyir",
+  "url_menu": "wiki"
+
+}
