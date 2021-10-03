@@ -1,9 +1,9 @@
 <?php
-$title = _Wiki_dashboard_TITLE;
-$description = _Wiki_dashboard_DESC;
+$title = WIKI_DASHBOARD_TITLE;
+$description = WIKI_DASHBOARD_DESC;
 ?>
 
-<?php $styles = "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.css'>";
+<?php $styles = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.css">';
 $scripts = "<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.js'> </script>";
 
 $scripts .= "

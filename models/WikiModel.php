@@ -2,13 +2,13 @@
 
 namespace CMS\Model\Wiki ;
 
-use CMS\Model\Manager;
+use CMS\Model\manager;
 
 use PDO;
 use stdClass;
 
 /**
- * Class @WwikiModel
+ * Class @wikiModel
  * @package Wiki
  * @author Teyir | CraftMySite <contact@craftmysite.fr>
  * @version 1.0
@@ -16,6 +16,6 @@ use stdClass;
 
 
 
-class WikiModel extends Manager {
+class wikiModel extends manager {
 
 }
