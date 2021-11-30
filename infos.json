@@ -5,6 +5,6 @@
   "description": "Gérer et afficher le wiki de votre site",
   "version": "1.0.0",
   "author": "Teyir",
-  "url_menu": "wiki"
+  "url_menu": "wiki/list"
 
 }

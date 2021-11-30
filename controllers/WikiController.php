@@ -29,13 +29,65 @@ class wikiController extends coreController
     public function frontWikiListAdmin() {
         $wiki = new wikiModel();
 
-        //List all catégories and articles
+        //List all categories and articles
 
 
         //Include the view file ("views/list.admin.view.php").
         view('wiki', 'list.admin', ["wiki" => $wiki], 'admin');
     }
 
+    public function wikiAddCategorie(){
+        usersController::isAdminLogged();
+
+        view('wiki', 'addCategorie.admin', [], 'admin');
+    }
+
+
+    public function wikiAddCategoriePost(){
+        usersController::isAdminLogged();
+
+        $wiki = new wikiModel();
+
+        $wiki->nameCategorie = $_POST['name'];
+        $wiki->descriptionCategorie = $_POST['description'];
+        $wiki->iconCategorie = $_POST['icon'];
+
+        $wiki->slugCategorie = $wiki->cleanString($_POST['slug']);;
+
+
+        $wiki->categorieAdd();
+        header("location: ../list");
+    }
+
+    public function wikiAddArticle(){
+        usersController::isAdminLogged();
+
+        $wiki = new wikiModel();
+        $categories = $wiki->fetchAll();
+
+        view('wiki', 'addArticle.admin', ["categories" => $categories], 'admin');
+    }
+
+    public function wikiAddArticlePost(){
+        usersController::isAdminLogged();
+
+        $wiki = new wikiModel();
+
+        $wiki->titleArticle = $_POST['title'];
+        $wiki->categorieIdArticle = $_POST['categorie'];
+        $wiki->iconeArticle = $_POST['icon'];
+        $wiki->contentArticle = $_POST['content'];
+
+        $wiki->slugArticle = $wiki->cleanString($wiki->titleArticle);
+
+        //Get the author pseudo
+        $user = new usersModel();
+        $user->fetch($_SESSION['cmsUserId']);
+        $wiki->authorArticle = $user->userPseudo;
+
+        $wiki->articleAdd();
+        header("location: ../list");
+    }
 
 
 

@@ -1,0 +1,44 @@
+.wiki-icons{
+    color: #525898 !important;
+}
+
+.wiki-icons:hover{
+    color: #ababab !important;
+}
+
+.dark-mode .wiki-icons {
+    color: white !important;
+}
+
+.dark-mode .wiki-icons:hover {
+    color: #ababab !important;
+}
+
+
+.icon-add{
+    color: #00bc8c;
+}
+
+.icon-add:hover{
+    color: #0a800a;
+}
+
+.categorie-container{
+    border-style: solid;
+    border-width: 2px 2px;
+    border-radius: 3px;
+    border-color: #b5acf3;
+
+    padding: 6px 6px 6px 6px;
+
+
+}
+
+.article-container{
+    border-style: solid;
+    border-width: 2px 2px;
+    border-radius: 3px;
+    border-color: #b5acf3;
+
+    padding: 3px 3px 3px 3px;
+}

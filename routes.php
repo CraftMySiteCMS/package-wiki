@@ -9,11 +9,21 @@ require_once('Lang/'.getenv("LOCALE").'.php');
 
 //Admin pages
 $router->scope('/cms-admin', function($router) {
-    $router->get('/wiki', "wiki#frontWikiListAdmin");
+    $router->get('/wiki/list', "wiki#frontWikiListAdmin");
+
+    $router->get('/wiki/add/categorie', "wiki#wikiAddCategorie");
+    $router->post('/wiki/add/categorie', "wiki#wikiAddCategoriePost");
+
+    $router->get('/wiki/add/article', "wiki#wikiAddArticle");
+    $router->post('/wiki/add/article', "wiki#wikiAddArticlePost");
+
+
+
+
 });
 
 
-$router->scope('/cms-admin/wiki', function($router) {
+$router->scope('/cms-admin/wiki/list', function($router) {
 
 
 
