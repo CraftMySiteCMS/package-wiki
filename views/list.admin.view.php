@@ -14,11 +14,11 @@ ob_start();
         <section class="card">
             <div class="row p-3">
                 <div class="mx-auto">
-                    <a href="add/categorie" class="btn btn-success">Ajouter une catégorie</a>
+                    <a href="add/categorie" class="btn btn-success"><?= WIKI_DASHBOARD_BUTTON_ADD_CATEGORY ?></a>
                 </div>
 
                 <div class="mx-auto">
-                    <a href="add/article" class="btn btn-success">Ajouter un article</a>
+                    <a href="add/article" class="btn btn-success"><?= WIKI_DASHBOARD_BUTTON_ADD_ARTICLE ?></a>
                 </div>
             </div>
         </section>
@@ -29,13 +29,13 @@ ob_start();
                     <div class="card card-row card-secondary">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Articles non-définis:
+                                <?= WIKI_DASHBOARD_ARTICLES_UNDEFINED ?>
                             </h3>
                         </div>
                         <div class="card-body">
                             <div class="card card-primary card-outline">
                                 <div class="card-header">
-                                    <h5 class="card-title">Articles</h5>
+                                    <h5 class="card-title"><?= WIKI_DASHBOARD_ARTICLES ?></h5>
                                     <div class="card-tools">
                                         <span>(<strong><?= $wiki->getNumberOfUndefinedArticles() ?></strong>)</span>
                                     </div>
@@ -65,19 +65,23 @@ ob_start();
 
                     <div class="card-body">
                         <ol class="list-unstyled">
-
-                            <div class="categorie-container mt-4" id="categorie-">
-                                <span class="ml-2">Catégorie n° 1</span>
+                            <?php
+                            /** @var wikiModel[] $getAllCategories */
+                            foreach ($getAllCategories as $category):?>
+                            <div class="categorie-container mt-4" id="categorie-<?= $category['id'] ?>">
+                                <span class="ml-2"><?= $category['name'] ?></span>
                                 <a href="#" class="float-right wiki-icons mr-2"><i class="fas fa-trash-alt"></i></a>
                                 <a href="#" class="float-right wiki-icons mr-3"><i class="fas fa-edit"></i></a>
                             </div>
-
-
-                            <div class="ml-5 mt-1 article-container" id="article-">
-                                <span class="ml-2">Article n° 1</span>
-                                <a href="#" class="float-right wiki-icons mr-2"><i class="fas fa-trash-alt"></i></a>
-                                <a href="#" class="float-right wiki-icons mr-3"><i class="fas fa-edit"></i></a>
-                            </div>
+                                <?php $articles =  $wiki->getAllArticlesInCategory($category['id']);
+                                    foreach ($articles as $article):?>
+                                        <div class="ml-5 mt-1 article-container" id="article-<?= $article['id'] ?>">
+                                            <span class="ml-2"><?= $article['title'] ?></span>
+                                            <a href="#" class="float-right wiki-icons mr-2"><i class="fas fa-trash-alt"></i></a>
+                                            <a href="#" class="float-right wiki-icons mr-3"><i class="fas fa-edit"></i></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                            <?php endforeach; ?>
 
                         </ol>
 

@@ -32,11 +32,10 @@ class wikiController extends coreController
         //Get all undefined articles
         $undefinedArticles = $wiki->getUndefinedArticles();
 
-        $numberOfUndefinedArticles = $wiki->getNumberOfUndefinedArticles();
-
+        $getAllCategories = $wiki->getAllCategories();
 
         //Include the view file ("views/list.admin.view.php").
-        view('wiki', 'list.admin', ["wiki" => $wiki, "undefinedArticles" => $undefinedArticles], 'admin');
+        view('wiki', 'list.admin', ["wiki" => $wiki, "undefinedArticles" => $undefinedArticles, "getAllCategories" => $getAllCategories], 'admin');
     }
 
     public function wikiAddCategorie(){

@@ -130,6 +130,36 @@ class wikiModel extends manager {
         return [];
     }
 
+    public function getAllCategories(): array{
+        $sql = "SELECT * FROM cms_wiki_categories WHERE is_define = 1";
+        $db = manager::dbConnect();
+        $req = $db->prepare($sql);
+        $res = $req->execute();
+
+        if ($res){
+            return $req->fetchAll();
+        }
+
+        return [];
+    }
+
+    public function getAllArticlesInCategory($id): array{
+        $var = array(
+            "categoryId" => $id
+        );
+        $sql = "SELECT * FROM cms_wiki_articles WHERE category_id =:categoryId AND is_define = 1";
+
+        $db = manager::dbConnect();
+        $req = $db->prepare($sql);
+        $res = $req->execute($var);
+
+        if ($res){
+            return $req->fetchAll();
+        }
+
+        return [];
+    }
+
 
 
 
