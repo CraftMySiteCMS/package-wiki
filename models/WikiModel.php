@@ -102,6 +102,34 @@ class wikiModel extends manager {
         return [];
     }
 
+    public function getUndefinedArticles(): array{
+        $sql = "SELECT * FROM cms_wiki_articles WHERE is_define = 0";
+        $db = manager::dbConnect();
+        $req = $db->prepare($sql);
+        $res = $req->execute();
+
+        if ($res){
+            return $req->fetchAll();
+        }
+
+        return [];
+    }
+
+    public function getNumberOfUndefinedArticles(){
+        $sql = "SELECT * FROM cms_wiki_articles WHERE is_define = 0";
+        $db = manager::dbConnect();
+        $req = $db->prepare($sql);
+        $res = $req->execute();
+
+        if ($res){
+            $lines = $req->fetchAll();
+
+            return count($lines);
+        }
+
+        return [];
+    }
+
 
 
 

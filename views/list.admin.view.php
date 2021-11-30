@@ -4,6 +4,8 @@ $description = WIKI_DASHBOARD_DESC;
 
 $styles = '<link rel="stylesheet" href="'.getenv("PATH_SUBFOLDER").'app/package/wiki/views/ressources/css/main.css">';
 
+/** @var wikiModel[] $wiki */
+
 ob_start();
 ?>
 
@@ -27,7 +29,7 @@ ob_start();
                     <div class="card card-row card-secondary">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Articles disponibles:
+                                Articles non-définis:
                             </h3>
                         </div>
                         <div class="card-body">
@@ -35,14 +37,16 @@ ob_start();
                                 <div class="card-header">
                                     <h5 class="card-title">Articles</h5>
                                     <div class="card-tools">
-                                        <span>(10)</span>
+                                        <span>(<strong><?= $wiki->getNumberOfUndefinedArticles() ?></strong>)</span>
                                     </div>
                                 </div>
                                 <div class="card-body" id="list-articles">
                                     <ul class="list-unstyled">
-                                        <li>Article 1 <button class="btn icon-add"><i class="fas fa-plus-circle"></i></button></li>
-                                        <li>Article 2 <button class="btn icon-add"><i class="fas fa-plus-circle"></i></button></li>
-                                        <li>Article 3 <button class="btn icon-add"><i class="fas fa-plus-circle"></i></button></li>
+                                        <?php
+                                        /** @var wikiModel[] $undefinedArticles */
+                                        foreach ($undefinedArticles as $undefinedArticle):?>
+                                            <li><?= $undefinedArticle['title'] ?><button class="btn icon-add"><i class="fas fa-plus-circle"></i></button></li>
+                                        <?php endforeach; ?>
                                     </ul>
                                 </div>
                             </div>
@@ -74,14 +78,6 @@ ob_start();
                                 <a href="#" class="float-right wiki-icons mr-2"><i class="fas fa-trash-alt"></i></a>
                                 <a href="#" class="float-right wiki-icons mr-3"><i class="fas fa-edit"></i></a>
                             </div>
-
-
-
-
-
-
-
-
 
                         </ol>
 

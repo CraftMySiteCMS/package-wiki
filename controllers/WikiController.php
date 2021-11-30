@@ -29,11 +29,14 @@ class wikiController extends coreController
     public function frontWikiListAdmin() {
         $wiki = new wikiModel();
 
-        //List all categories and articles
+        //Get all undefined articles
+        $undefinedArticles = $wiki->getUndefinedArticles();
+
+        $numberOfUndefinedArticles = $wiki->getNumberOfUndefinedArticles();
 
 
         //Include the view file ("views/list.admin.view.php").
-        view('wiki', 'list.admin', ["wiki" => $wiki], 'admin');
+        view('wiki', 'list.admin', ["wiki" => $wiki, "undefinedArticles" => $undefinedArticles], 'admin');
     }
 
     public function wikiAddCategorie(){
