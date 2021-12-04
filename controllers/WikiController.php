@@ -4,7 +4,8 @@ namespace CMS\Controller\Wiki;
 use CMS\Controller\coreController;
 use CMS\Controller\Menus\menusController;
 use CMS\Controller\users\usersController;
-use CMS\Model\wiki\wikiModel;
+use CMS\Model\wiki\wikiCategoriesModel;
+use CMS\Model\wiki\wikiArticlesModel;
 use CMS\Model\users\usersModel;
 use CMS\Model\Menus\menusModel;
 
@@ -27,71 +28,195 @@ class wikiController extends coreController
     }
 
     public function frontWikiListAdmin() {
-        $wiki = new wikiModel();
+        $articles = new wikiArticlesModel();
+
+        $categories = new wikiCategoriesModel();
 
         //Get all undefined articles
-        $undefinedArticles = $wiki->getUndefinedArticles();
+        $undefinedArticles = $articles->getUndefinedArticles();
 
-        $getAllCategories = $wiki->getAllCategories();
+        $undefinedCategories = $categories->getUndefinedCategories();
+
+        $getAllCategories = $categories->getAllCategories();
 
         //Include the view file ("views/list.admin.view.php").
-        view('wiki', 'list.admin', ["wiki" => $wiki, "undefinedArticles" => $undefinedArticles, "getAllCategories" => $getAllCategories], 'admin');
+        view('wiki', 'list.admin', ["articles" => $articles, "categories" => $categories ,
+                                    "undefinedArticles" => $undefinedArticles, "undefinedCategories" => $undefinedCategories,
+                                    "getAllCategories" => $getAllCategories], 'admin');
     }
 
-    public function wikiAddCategorie(){
+    public function addCategorie(){
         usersController::isAdminLogged();
 
         view('wiki', 'addCategorie.admin', [], 'admin');
     }
 
 
-    public function wikiAddCategoriePost(){
+    public function addCategoriePost(){
         usersController::isAdminLogged();
 
-        $wiki = new wikiModel();
+        $categories = new wikiCategoriesModel();
 
-        $wiki->nameCategorie = $_POST['name'];
-        $wiki->descriptionCategorie = $_POST['description'];
-        $wiki->iconCategorie = $_POST['icon'];
+        $categories->name = filter_input(INPUT_POST, "name");
+        $categories->description = filter_input(INPUT_POST, "description");
+        $categories->icon = filter_input(INPUT_POST, "icon");
 
-        $wiki->slugCategorie = $wiki->cleanString($_POST['slug']);;
+        $categories->slug = $categories->cleanString(filter_input(INPUT_POST, "slug"));;
 
 
-        $wiki->categorieAdd();
+        $categories->create();
         header("location: ../list");
     }
 
-    public function wikiAddArticle(){
+    public function addArticle(){
         usersController::isAdminLogged();
 
-        $wiki = new wikiModel();
-        $categories = $wiki->fetchAll();
+        $articles = new wikiArticlesModel();
 
-        view('wiki', 'addArticle.admin', ["categories" => $categories], 'admin');
+        $categories = new wikiCategoriesModel();
+        $categories = $categories->fetchAll();
+
+        view('wiki', 'addArticle.admin', ["articles" => $articles,"categories" => $categories], 'admin');
     }
 
-    public function wikiAddArticlePost(){
+    public function addArticlePost(){
         usersController::isAdminLogged();
 
-        $wiki = new wikiModel();
+        $articles = new wikiArticlesModel();
 
-        $wiki->titleArticle = $_POST['title'];
-        $wiki->categorieIdArticle = $_POST['categorie'];
-        $wiki->iconeArticle = $_POST['icon'];
-        $wiki->contentArticle = $_POST['content'];
+        $articles->title = filter_input(INPUT_POST, "title");
+        $articles->categoryId = filter_input(INPUT_POST, "categorie");
+        $articles->icon= filter_input(INPUT_POST, "icon");
+        $articles->content = filter_input(INPUT_POST, "content");
 
-        $wiki->slugArticle = $wiki->cleanString($wiki->titleArticle);
+        $articles->slug = $articles->cleanString($articles->title);
 
         //Get the author pseudo
         $user = new usersModel();
         $user->fetch($_SESSION['cmsUserId']);
-        $wiki->authorArticle = $user->userPseudo;
+        $articles->author = $user->userPseudo;
 
-        $wiki->articleAdd();
+        $articles->create();
         header("location: ../list");
     }
 
+    public function editCategorie($id){
+        usersController::isAdminLogged();
 
+        $categories = new wikiCategoriesModel();
+        $categories->id = $id;
+
+        $categories->fetch($id);
+
+
+        view('wiki', 'editCategorie.admin', ["categories" => $categories], 'admin');
+    }
+
+    public function editCategoriePost($id){
+        usersController::isAdminLogged();
+
+        $categories = new wikiCategoriesModel();
+        $categories->id = $id;
+        $categories->name = filter_input(INPUT_POST, "name");
+        $categories->description = filter_input(INPUT_POST, "description");
+        $categories->icon = filter_input(INPUT_POST, "icon");
+        $categories->slug = filter_input(INPUT_POST, "slug");
+        if (filter_input(INPUT_POST, "isDefine") == null){
+            $categories->isDefine = 0;
+        }else{
+            $categories->isDefine = filter_input(INPUT_POST, "isDefine");
+        }
+
+        $categories->update();
+
+        header("location: ../../list");
+        die();
+
+    }
+
+    public function deleteCategorie($id){
+        usersController::isAdminLogged();
+
+        $categorie = new wikiCategoriesModel();
+        $categorie->id = $id;
+        $categorie->delete();
+
+        header("location: ../../list");
+
+    }
+
+    public function editArticle($id){
+        usersController::isAdminLogged();
+
+        $articles = new wikiArticlesModel();
+        $articles->id = $id;
+
+        $categories = new wikiCategoriesModel();
+        $categories = $categories->fetchAll();
+
+        $articles->fetch($id);
+
+
+        view('wiki', 'editArticle.admin', ["articles" => $articles, "categories" => $categories], 'admin');
+    }
+
+    public function editArticlePost($id){
+        usersController::isAdminLogged();
+
+        //Get the author pseudo
+        $user = new usersModel();
+        $user->fetch($_SESSION['cmsUserId']);
+
+        $articles = new wikiArticlesModel();
+
+        $articles->id = $id;
+        $articles->title = filter_input(INPUT_POST, "title");
+        $articles->content = filter_input(INPUT_POST, "content");
+        $articles->icon = filter_input(INPUT_POST, "icon");
+        $articles->lastEditor = $user->userPseudo;
+        if (filter_input(INPUT_POST, "isDefine") == null){
+            $articles->isDefine = 0;
+        }else{
+            $articles->isDefine = filter_input(INPUT_POST, "isDefine");
+        }
+
+        $articles->update();
+
+        header("location: ../../list");
+        die();
+
+    }
+
+    public function deleteArticle($id){
+        usersController::isAdminLogged();
+
+        $article = new wikiArticlesModel();
+        $article->id = $id;
+        $article->delete();
+
+        header("location: ../../list");
+
+    }
+
+    public function defineCategorie($id){
+        usersController::isAdminLogged();
+
+        $categorie = new wikiCategoriesModel();
+        $categorie->id = $id;
+        $categorie->define();
+
+        header("location: ../../list");
+    }
+
+    public function defineArticle($id){
+        usersController::isAdminLogged();
+
+        $article = new wikiArticlesModel();
+        $article->id = $id;
+        $article->define();
+
+        header("location: ../../list");
+    }
 
 
 

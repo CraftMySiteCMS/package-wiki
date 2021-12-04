@@ -23,6 +23,15 @@
     color: #0a800a;
 }
 
+.icon-delete{
+    color: #d72525;
+
+}
+
+.icon-delete:hover{
+    color: #9b1313;
+}
+
 .categorie-container{
     border-style: solid;
     border-width: 2px 2px;

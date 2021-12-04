@@ -34,6 +34,8 @@ $scripts .="
 ";
 
 ob_start();
+
+/** @var wikiArticlesModel[] $articles */
 ?>
 <div class="content">
     <div class="container-fluid">
@@ -53,7 +55,7 @@ ob_start();
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-heading"></i></span>
                                 </div>
-                                <input type="text" name="title" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_ARTICLE_TITLE_PLACEHOLDER?>" required>
+                                <input type="text" name="title" value="<?= $articles->title ?>" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_ARTICLE_TITLE_PLACEHOLDER?>" required>
 
                             </div>
 
@@ -62,9 +64,9 @@ ob_start();
 
                                 <select class="form-control" name="categorie" required>
                                     <?php
-                                    /** @var WikiModel[] $categories */
+                                    /** @var WikiCategoriesModel[] $categories */
                                     foreach ($categories as $category): ?>
-                                        <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                                        <option value="<?= $category['id'] ?>" <?= ($articles->categoryId == $category['id'] ? "selected" : "") ?> ><?= $category['name'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
 
@@ -76,14 +78,14 @@ ob_start();
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-icons"></i></span>
                                 </div>
-                                <input type="text" name="icon" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_CATEGORIE_ICON_PLACEHOLDER?>" required>
+                                <input type="text" name="icon" value="<?= $articles->icon ?>" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_CATEGORIE_ICON_PLACEHOLDER?>" required>
                             </div>
                             <small class="form-text">Retrouvez la liste des icones sur le site de <a href="https://fontawesome.com" target="_blank">FontAwesome.com</a></small>
 
 
                             <label for="content" class="mt-3"><?=WIKI_DASHBOARD_ADD_ARTICLE_CONTENT?></label>
                             <div class="input-group mb-3">
-                                <textarea id="summernote" name="content" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_ARTICLE_CONTENT_PLACEHOLDER?>" required> </textarea>
+                                <textarea id="summernote" name="content" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_ARTICLE_CONTENT_PLACEHOLDER?>" required><?= $articles->content ?> </textarea>
 
                             </div>
 
@@ -92,6 +94,11 @@ ob_start();
 
 
                         <div class="card-footer">
+                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success float-left">
+                                <input type="checkbox" name="isDefine" value="1" class="custom-control-input" id="customSwitch3" <?= ($articles->isDefine ? "checked" : "")  ?>>
+                                <label class="custom-control-label" for="customSwitch3"><?=WIKI_DASHBOARD_EDIT_CATEGORIE_ACTIVE?></label>
+                            </div>
+
                             <button type="submit" class="btn btn-primary float-right"><?=WIKI_DASHBOARD_BUTTON_SAVE?></button>
                         </div>
 

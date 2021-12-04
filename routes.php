@@ -8,17 +8,42 @@ require_once('Lang/'.getenv("LOCALE").'.php');
 /** @var $router router Main router */
 
 //Admin pages
-$router->scope('/cms-admin', function($router) {
-    $router->get('/wiki/list', "wiki#frontWikiListAdmin");
+$router->scope('/cms-admin/wiki', function($router) {
+    $router->get('/list', "wiki#frontWikiListAdmin");
 
-    $router->get('/wiki/add/categorie', "wiki#wikiAddCategorie");
-    $router->post('/wiki/add/categorie', "wiki#wikiAddCategoriePost");
+    $router->get('/add/categorie', "wiki#addCategorie");
+    $router->post('/add/categorie', "wiki#addCategoriePost");
 
-    $router->get('/wiki/add/article', "wiki#wikiAddArticle");
-    $router->post('/wiki/add/article', "wiki#wikiAddArticlePost");
+    $router->get('/add/article', "wiki#addArticle");
+    $router->post('/add/article', "wiki#addArticlePost");
 
+    $router->get('/edit/categorie/:id', function($id) {
+        (new wikiController)->editCategorie($id);
+    })->with('id', '[0-9]+');
+    $router->post('/edit/categorie/:id', function($id) {
+        (new wikiController)->editCategoriePost($id);
+    })->with('id', '[0-9]+');
 
+    $router->get('/edit/article/:id', function($id) {
+        (new wikiController)->editArticle($id);
+    })->with('id', '[0-9]+');
+    $router->post('/edit/article/:id', function($id) {
+        (new wikiController)->editArticlePost($id);
+    })->with('id', '[0-9]+');
 
+    $router->get('/delete/article/:id', function($id) {
+        (new wikiController)->deleteArticle($id);
+    })->with('id', '[0-9]+');
+    $router->get('/delete/categorie/:id', function($id) {
+        (new wikiController)->deleteCategorie($id);
+    })->with('id', '[0-9]+');
+
+    $router->get('/define/categorie/:id', function($id) {
+        (new wikiController)->defineCategorie($id);
+    })->with('id', '[0-9]+');
+    $router->get('/define/article/:id', function($id) {
+        (new wikiController)->defineArticle($id);
+    })->with('id', '[0-9]+');
 
 });
 

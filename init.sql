@@ -8,7 +8,7 @@ CREATE TABLE `cms_wiki_articles`(
     `slug`        varchar(255) NOT NULL,
     `icon`        varchar(35)           DEFAULT NULL,
     `date_create` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `date_update` timestamp NULL DEFAULT NULL,
+    `date_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `author`      varchar(255) NOT NULL,
     `last_editor` varchar(255)          DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -20,7 +20,7 @@ CREATE TABLE `cms_wiki_categories`(
     `slug`        varchar(255) NOT NULL,
     `icon`        varchar(35)           DEFAULT NULL,
     `date_create` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `date_update` timestamp NULL DEFAULT NULL,
+    `date_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
     `position`    int(11) UNSIGNED NOT NULL DEFAULT '0',
     `is_define`    int(1) UNSIGNED NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
