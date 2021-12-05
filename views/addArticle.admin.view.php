@@ -78,7 +78,7 @@ ob_start();
                                 </div>
                                 <input type="text" name="icon" class="form-control" placeholder="<?=WIKI_DASHBOARD_ADD_CATEGORIE_ICON_PLACEHOLDER?>" required>
                             </div>
-                            <small class="form-text">Retrouvez la liste des icones sur le site de <a href="https://fontawesome.com" target="_blank">FontAwesome.com</a></small>
+                            <small class="form-text"><?=WIKI_DASHBOARD_ADD_HINT_ICON?> <a href="https://fontawesome.com" target="_blank">FontAwesome.com</a></small>
 
 
                             <label for="content" class="mt-3"><?=WIKI_DASHBOARD_ADD_ARTICLE_CONTENT?></label>

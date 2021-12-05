@@ -40,5 +40,7 @@ const WIKI_DASHBOARD_ADD_ARTICLE_CATEGORIE = "Categorie";
 const WIKI_DASHBOARD_ADD_ARTICLE_CONTENT = "Contenu";
 const WIKI_DASHBOARD_ADD_ARTICLE_CONTENT_PLACEHOLDER = "Contenu de votre article";
 
+const WIKI_DASHBOARD_ADD_HINT_ICON = "Retrouvez la liste des icones sur le site de ";
+
 const WIKI_DASHBOARD_EDIT_CATEGORIE_ACTIVE = "Activer cette catégorie ?";
 
