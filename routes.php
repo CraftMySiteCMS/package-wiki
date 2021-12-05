@@ -58,8 +58,8 @@ $router->scope('/wiki', function ($router){
     $router->get('/', "wiki#publicMain");
 
 
-    $router->get('/:slug', function($slug) {
-        (new wikiController)->publicShowArticle($slug);
+    $router->get('/:slugC/:slugA', function($slugC,$slugA) {
+        (new wikiController)->publicShowArticle($slugC,$slugA);
     })->with('slug', '.*?');
 
 });

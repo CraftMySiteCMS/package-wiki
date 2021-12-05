@@ -240,10 +240,10 @@ class wikiController extends coreController
                                 "articles" => $articles, "core" => $core, "menu" => $menu], 'public');
     }
 
-    public function publicShowArticle($slug){
+    public function publicShowArticle($slugC,$slugA){
 
         //get the current url (slug)
-        $url = $slug;
+        $url = $slugA;
 
         //Default controllers (important)
         $core = new coreController();
@@ -254,7 +254,7 @@ class wikiController extends coreController
 
         $articles = new wikiArticlesModel();
 
-        $articles->getContent($slug);
+        $articles->getContent($slugA);
 
 
         //Include the public view file ("public/themes/$themePath/views/wiki/main.view.php")
