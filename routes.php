@@ -54,7 +54,14 @@ $router->scope('/cms-admin/wiki/list', function($router) {
 
 //Public pages
 $router->scope('/wiki', function ($router){
-    $router->get('/', "wiki#frontMainWikiPublic");
+    //get all categories
+    $router->get('/', "wiki#publicMain");
+
+
+    $router->get('/:slug', function($slug) {
+        (new wikiController)->publicShowArticle($slug);
+    })->with('slug', '.*?');
+
 });
 
 });

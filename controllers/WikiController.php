@@ -222,15 +222,43 @@ class wikiController extends coreController
 
     /* //////////////////// FRONT PUBLIC //////////////////// */
 
-    public function frontMainWikiPublic(){
+    //List all the categories & articles in the main page
+    public function publicMain(){
 
         //Default controllers (important)
         $core = new coreController();
         $menu = new menusController();
 
-        $wiki = new wikiModel();
+        $categorie = new wikiCategoriesModel();
+        $getAllCategories = $categorie->getAllCategories();
+
+        $articles = new wikiArticlesModel();
+
 
         //Include the public view file ("public/themes/$themePath/views/wiki/main.view.php")
-        view('wiki', 'main', ["wiki" => $wiki, "core" => $core, "menu" => $menu], 'public');
+        view('wiki', 'main', ["categorie" => $categorie,"getAllCategories" => $getAllCategories ,
+                                "articles" => $articles, "core" => $core, "menu" => $menu], 'public');
+    }
+
+    public function publicShowArticle($slug){
+
+        //get the current url (slug)
+        $url = $slug;
+
+        //Default controllers (important)
+        $core = new coreController();
+        $menu = new menusController();
+
+        $categorie = new wikiCategoriesModel();
+        $getAllCategories = $categorie->getAllCategories();
+
+        $articles = new wikiArticlesModel();
+
+        $articles->getContent($slug);
+
+
+        //Include the public view file ("public/themes/$themePath/views/wiki/main.view.php")
+        view('wiki', 'main', ["categorie" => $categorie,"getAllCategories" => $getAllCategories ,
+            "articles" => $articles, "url" => $url , "core" => $core, "menu" => $menu], 'public');
     }
 }

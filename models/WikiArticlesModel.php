@@ -31,7 +31,7 @@ class wikiArticlesModel extends manager {
     public ?int $isDefine;
 
 
-    public function cleanString($string)
+    public function cleanString($string): array
     {
         $search  = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', '&', "'", '"', '%', '!', '?', '*', ' ');
         $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'e', '_', '_', '_', '_', '_', '_', '-');
@@ -42,7 +42,7 @@ class wikiArticlesModel extends manager {
     }
 
 
-    public function create(){
+    public function create(): void{
 
         $var = array(
             "title" => $this->title,
@@ -191,6 +191,33 @@ class wikiArticlesModel extends manager {
         $db = manager::dbConnect();
         $req = $db->prepare($sql);
         $req->execute($var);
+    }
+
+    public function getContent($slug): void{
+        $var = array(
+            "slug" => $slug
+        );
+
+        $sql = "SELECT * FROM cms_wiki_articles WHERE slug=:slug";
+
+        $db = manager::dbConnect();
+        $req = $db->prepare($sql);
+        if($req->execute($var)) {
+            $result = $req->fetch();
+            foreach ($result as $key => $property) {
+
+                //to camel case all keys
+                $key = explode('_', $key);
+                $firstElement = array_shift($key);
+                $key = array_map('ucfirst', $key);
+                array_unshift($key, $firstElement);
+                $key = implode('', $key);
+
+                if (property_exists(wikiArticlesModel::class, $key)) {
+                    $this->$key = $property;
+                }
+            }
+        }
     }
 
 
