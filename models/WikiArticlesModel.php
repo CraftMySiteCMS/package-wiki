@@ -27,6 +27,7 @@ class wikiArticlesModel extends manager {
     public ?string $author;
     public ?string $lastEditor;
     public ?string $dateUpdate;
+    public ?string $dateCreate;
     public ?int $position;
     public ?int $isDefine;
 
